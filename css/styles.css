@@ -78,10 +78,6 @@ section {
     display: inline-block;
 }
 
-.navbar__menu li.addBtn {
-    float: left;
-}
-
 .navbar__menu .menu__link {
     display: block;
     padding: 1em;
