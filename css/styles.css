@@ -23,7 +23,7 @@ body {
 h1 {
     font-family: 'Fira Sans', sans-serif;
     font-size: 3em;
-    margin: 2em 1rem;
+    margin: 4em 1rem 2em 1rem;
 }
 
 @media only screen and (min-width: 35em){
@@ -64,6 +64,10 @@ section {
 /* ---- Module Rules ---- */
 
 /* Navigation Styles*/
+.navbar__menu {
+    background: #fff;
+}
+
 .navbar__menu ul {
     padding-left: 0;
     margin: 0;
@@ -90,8 +94,14 @@ section {
     background-color: bisque;
 }
 
-.navbar__menu li.addBtn .menu__link {
-    color: rgb(255, 0, 0);
+#addSectionBtn {
+    color: yellow;
+    display: inline-block;
+    background: green;
+    border-radius: 0 50% 50% 0;
+    padding: 1em;
+    font-weight: bold;
+    text-decoration: none;
 }
 
 .navbar__menu .menu__link:hover {
@@ -102,7 +112,6 @@ section {
 
 /* Header Styles */
 .page__header {
-    background: #fff;
     position: fixed;
     top: 0;
     width: 100%;
@@ -252,4 +261,4 @@ section.active .landing__container::after {
     font-weight: bold;
     text-decoration: none;
     display: none;
-  }
+}

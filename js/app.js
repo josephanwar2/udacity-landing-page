@@ -22,7 +22,7 @@ const topBtn = document.getElementById("topBtn");
 let sectionsCounter = 0;
 
 // used to prevent adding setTimeout method many times on scrolling
-let methodAdded = false;
+let hideNaveMethodAdded = false;
 
 // Add section link to Nav
 const addNavItem = (parent, secId, text) => {
@@ -42,17 +42,6 @@ const buildNav = () => {
   // Create virtual document
   const nav = document.createDocumentFragment();
 
-  // Add 'Add Section' Button
-  const li = document.createElement("li");
-  li.classList.add("addBtn");
-  const a = document.createElement("a");
-  a.setAttribute("href", "#");
-  a.id = "addSectionBtn";
-  a.textContent = "Add Section";
-  a.classList.add("menu__link");
-  li.append(a);
-  nav.append(li);
-
   // Add sections to Nav
   sections.forEach((section) => {
     addNavItem(nav, section.id, section.dataset.nav);
@@ -64,7 +53,13 @@ const buildNav = () => {
   navbar.append(nav);
 
   // listen to links click event (one event listener to make better performance)
-  navbar.addEventListener("click", navClickEvent);
+  navbar.addEventListener("click", (event) => {
+    if (event.target.nodeName === "A") {
+      event.preventDefault();
+      // scroll to section
+      scrollToId(event.target.dataset.secId);
+    }
+  });
 };
 
 // Check if section top near to view port top OR if Section appeare in more than 50% of view port
@@ -95,12 +90,12 @@ document.addEventListener("scroll", () => {
   });
 
   header.style.display = "block";
-  if (!methodAdded) {
+  if (!hideNaveMethodAdded) {
     setTimeout(() => {
       header.style.display = "none";
-      methodAdded = false;
-    }, 2000);
-    methodAdded = true;
+      hideNaveMethodAdded = false;
+    }, 3000);
+    hideNaveMethodAdded = true;
   }
 
   // view To Top Button if scrolled more than 500
@@ -113,47 +108,35 @@ const scrollToId = (id) => {
   ele.scrollIntoView({ behavior: "smooth" });
 };
 
-const navClickEvent = (event) => {
-  if (event.target.nodeName === "A") {
+document.getElementById("addSectionBtn").addEventListener('click', (event) => {
     event.preventDefault();
-    if (event.target.id === "addSectionBtn") {
-      // Add new section (Add Section button cliked)
-      sectionsCounter++;
-      const newSectionHtml = `<section id="section${sectionsCounter}" data-nav="Section ${sectionsCounter}">
-            <div class="landing__container">
-                <h2>Section ${sectionsCounter}</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi fermentum metus faucibus lectus pharetra dapibus. Suspendisse potenti. Aenean aliquam elementum mi, ac euismod augue. Donec eget lacinia ex. Phasellus imperdiet porta orci eget mollis. Sed convallis sollicitudin mauris ac tincidunt. Donec bibendum, nulla eget bibendum consectetur, sem nisi aliquam leo, ut pulvinar quam nunc eu augue. Pellentesque maximus imperdiet elit a pharetra. Duis lectus mi, aliquam in mi quis, aliquam porttitor lacus. Morbi a tincidunt felis. Sed leo nunc, pharetra et elementum non, faucibus vitae elit. Integer nec libero venenatis libero ultricies molestie semper in tellus. Sed congue et odio sed euismod.</p>
+    // Add new section (Add Section button cliked)
+    sectionsCounter++;
+    const newSectionHtml = `<section id="section${sectionsCounter}" data-nav="Section ${sectionsCounter}">
+          <div class="landing__container">
+              <h2>Section ${sectionsCounter}</h2>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi fermentum metus faucibus lectus pharetra dapibus. Suspendisse potenti. Aenean aliquam elementum mi, ac euismod augue. Donec eget lacinia ex. Phasellus imperdiet porta orci eget mollis. Sed convallis sollicitudin mauris ac tincidunt. Donec bibendum, nulla eget bibendum consectetur, sem nisi aliquam leo, ut pulvinar quam nunc eu augue. Pellentesque maximus imperdiet elit a pharetra. Duis lectus mi, aliquam in mi quis, aliquam porttitor lacus. Morbi a tincidunt felis. Sed leo nunc, pharetra et elementum non, faucibus vitae elit. Integer nec libero venenatis libero ultricies molestie semper in tellus. Sed congue et odio sed euismod.</p>
 
-                <p>Aliquam a convallis justo. Vivamus venenatis, erat eget pulvinar gravida, ipsum lacus aliquet velit, vel luctus diam ipsum a diam. Cras eu tincidunt arcu, vitae rhoncus purus. Vestibulum fermentum consectetur porttitor. Suspendisse imperdiet porttitor tortor, eget elementum tortor mollis non.</p>
-            </div>
-            </section>`;
+              <p>Aliquam a convallis justo. Vivamus venenatis, erat eget pulvinar gravida, ipsum lacus aliquet velit, vel luctus diam ipsum a diam. Cras eu tincidunt arcu, vitae rhoncus purus. Vestibulum fermentum consectetur porttitor. Suspendisse imperdiet porttitor tortor, eget elementum tortor mollis non.</p>
+          </div>
+          </section>`;
 
-      const main = document.getElementsByTagName("main")[0];
-      main.insertAdjacentHTML("beforeend", newSectionHtml);
-      // Refresh sections array
-      sections = document.querySelectorAll("section");
+    const main = document.getElementsByTagName("main")[0];
+    main.insertAdjacentHTML("beforeend", newSectionHtml);
+    // Refresh sections array
+    sections = document.querySelectorAll("section");
 
-      // Add new section link to Nav
-      addNavItem(
-        document.getElementById("navbar__list"),
-        "section" + sectionsCounter,
-        "section " + sectionsCounter
-      );
-      // Refresh Nav items array
-      navItems = document.querySelectorAll("menu__link");
-
-      return;
-    }
-
-    // scroll to section
-    scrollToId(event.target.dataset.secId);
-  }
-};
-
-// Build menu
-buildNav();
+    // Add new section link to Nav
+    addNavItem(document.getElementById("navbar__list"), "section" + sectionsCounter, "section " + sectionsCounter);
+    // Refresh Nav items array
+    navItems = document.querySelectorAll("menu__link");
+});
 
 topBtn.addEventListener("click", (event) => {
   event.preventDefault();
   window.scrollTo({ behavior: "smooth", top: 0 });
 });
+
+
+// Build menu
+buildNav();
