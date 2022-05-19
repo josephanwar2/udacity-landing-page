@@ -4,7 +4,7 @@
 
 * [description](#description)
 * [usage](#usage)
-* **[run Instructions](#run Instructions)**
+* [run instructions](#run-instructions)
 * [Techs](#Techs)
 * [Author](#Author)
 * [dependencies](#dependencies)
@@ -21,7 +21,7 @@ You can add new sections using "Add Section" button on page top.
 By clicking on any navigation item, page scroll smoothly to clicked section.
 When page scrolls down "Top" button will appear which take you to page top if clicked.
 
-## run Instructions
+## run instructions
 
 It's very easy. Just run index.html file
 
